@@ -4,17 +4,26 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToken } from "../../redux/auth-slice";
 
 function Home() {
-  const SPOTIFY_AUTHORIZE_ENDPOINT = "https://accounts.spotify.com/authorize";
+  const SPOTIFY_AUTHORIZE_ENDPOINT = process.env.REACT_APP_ENDPOINT;
   const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-  const REDIRECT_URI = "http://localhost:3000/create-playlist";
+  const REDIRECT_URI = "https://spotifyyyy-nine.vercel.app/";
   const SCOPE = "playlist-modify-private";
   const AUTH_URL = `${SPOTIFY_AUTHORIZE_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}&response_type=token&show_dialog=true`;
   const dispatch = useDispatch();
-
+  const getToken = new URLSearchParams(window.location.hash).get(
+    "#access_token"
+  );
+  const accessToken = useSelector(selectToken);
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
   const isAuth = () => {
     window.location = AUTH_URL;
     localStorage.setItem("isLoggedIn", true);
   };
+
+  useEffect(() => {
+    dispatch(addToken(getToken));
+  },[]);
+
 
   
   return (
