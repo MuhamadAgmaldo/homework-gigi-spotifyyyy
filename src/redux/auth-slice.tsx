@@ -2,13 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 
 type auththentication = {
-  value: string,
-  isLoggedin: boolean
+  value: string
 }
 
 const initialState: auththentication = {
-  value: "",
-  isLoggedin: false
+  value: ""
 };
 
 export const authSlice = createSlice({
@@ -18,14 +16,10 @@ export const authSlice = createSlice({
     addToken(state: auththentication, action: PayloadAction<string>) {
       state.value = action.payload;
     },
-    isLogin(state: auththentication, action: PayloadAction<boolean>) {
-      state.isLoggedin = action.payload
-    },
   }
 });
 
-export const { addToken, isLogin } = authSlice.actions;
+export const { addToken } = authSlice.actions;
 export const selectToken = (state: RootState) => state.authReducer.value;
-export const selectLogin = (state: RootState) => state.authReducer.isLoggedin;
 export default authSlice.reducer;
 
